@@ -4,6 +4,9 @@ import "./App.css";
 import Header from "./Header";
 import LinkButton from "./LinkButton";
 
+import DatabaseQuery from "./DatabaseQuery";
+import DatabaseAddition from "./DatabaseAddition";
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
@@ -12,16 +15,16 @@ function App() {
       <Header />
       <Switch>
         <Route path="/" exact={true}>
-          <div className="main-container">
+          <div className="flex-center">
             <LinkButton link="/query" text="Query Database" />
             <LinkButton link="/add" text="Add to Database" />
           </div>
         </Route>
         <Route path="/query" exact={true}>
-          <p>Query</p>
+          <DatabaseQuery />
         </Route>
         <Route path="/add" exact={true}>
-          <p>Add</p>
+          <DatabaseAddition />
         </Route>
       </Switch>
     </Router>
