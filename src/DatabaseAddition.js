@@ -9,7 +9,7 @@ export default function DatabaseAddition({ jurisdiction_list }) {
   const [file, setFile] = useState();
   const [date, setDate] = useState(new Date());
 
-  const [lastColumn, setLastColumn] = useState(20);
+  const [lastColumn, setLastColumn] = useState(0);
 
   const [barNumber, setBarNumber] = useState("Column 0");
   const [firstName, setFirstName] = useState("Column 0");
@@ -28,6 +28,10 @@ export default function DatabaseAddition({ jurisdiction_list }) {
       console.log("Missing file");
       return;
     }
+
+    //TODO: Parse file here
+    setLastColumn(20);
+
     setValidInput(true);
   }
 
