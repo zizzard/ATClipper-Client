@@ -16,8 +16,6 @@ export default function PrimaryFieldInputRow({
     column_options.push(option);
   }
 
-  console.log(column_options);
-
   return (
     <div className="flex-row">
       <label className="form-label" htmlFor={fieldId}>
