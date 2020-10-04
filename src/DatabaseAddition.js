@@ -20,19 +20,48 @@ export default function DatabaseAddition({ jurisdiction_list }) {
   const [validInput, setValidInput] = useState(false);
 
   function next() {
-    console.log(jurisdiction);
-    console.log(file);
-    console.log(date);
-
     if (file === undefined) {
       console.log("Missing file");
       return;
     }
 
-    //TODO: Parse file here
-    setLastColumn(20);
+    parseFile(file).then((result) => {
+      console.log(result);
+      setLastColumn(20);
+      setValidInput(true);
+    });
+  }
 
-    setValidInput(true);
+  function parseFile(file) {
+    return new Promise(function (resolve, reject) {
+      let name_arr = file.name.split(".");
+      let file_type = name_arr[name_arr.length - 1];
+      if (file_type === "xlsx" || file_type === "xls") {
+        parseExcel(file).then((result) => {
+          resolve(result);
+        });
+      } else if (file_type === "csv") {
+        parseCSV(file).then((result) => {
+          resolve(result);
+        });
+      } else {
+        reject("bad_file_type");
+      }
+    });
+  }
+
+  function parseExcel(file) {
+    return new Promise(function (resolve, reject) {
+      console.log(file);
+      resolve("Excel file");
+    });
+  }
+
+  function parseCSV(file) {
+    return new Promise(function (resolve, reject) {
+      console.log(file);
+      resolve("CSV file");
+    });
   }
 
   function submit() {
