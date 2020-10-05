@@ -1,5 +1,5 @@
 import React from "react";
-import info from './images/info.png';
+import info from "./images/info.png";
 import ReactTooltip from "react-tooltip";
 
 export default function FileInputRow({ setFile }) {
@@ -9,7 +9,13 @@ export default function FileInputRow({ setFile }) {
         <label className="form-label" htmlFor="file">
           Input
         </label>
-        <img src={info} className="infoIcon" data-tip data-for="inputTip"></img>
+        <img
+          alt="i"
+          src={info}
+          className="infoIcon"
+          data-tip
+          data-for="inputTip"
+        ></img>
         <ReactTooltip id="inputTip" place="right" effect="solid">
           Choose an excel or csv file to be parsed
         </ReactTooltip>

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import FileInputRow from "./FileInputRow";
 import DateInputRow from "./DateInputRow";
 import JurisdictionInputRow from "./JurisdictionInputRow";
-import PrimaryFieldInputRow from "./PrimaryFieldInputRow";
-
+import PrimaryFieldRenderer from "./PrimaryFieldRenderer";
 import Table from "./Table";
 
 import XLSX from "xlsx";
@@ -12,19 +11,26 @@ export default function DatabaseAddition({ jurisdiction_list }) {
   const [jurisdiction, setJurisdiction] = useState(jurisdiction_list[0]);
   const [file, setFile] = useState();
   const [date, setDate] = useState(new Date());
-
   const [lastColumn, setLastColumn] = useState(0);
+  const [tableData, setTableData] = useState();
+  const [validInput, setValidInput] = useState(false);
 
   let primary_default = { value: -2, label: "Select..." };
   const [barNumber, setBarNumber] = useState(primary_default);
   const [firstName, setFirstName] = useState(primary_default);
   const [lastName, setLastName] = useState(primary_default);
-  const [phoneNumber, setPhoneNumber] = useState(primary_default);
-  const [email, setEmail] = useState(primary_default);
-
-  const [tableData, setTableData] = useState();
-
-  const [validInput, setValidInput] = useState(false);
+  const [fullName, setFullName] = useState(primary_default);
+  const [phoneNumber1, setPhoneNumber1] = useState(primary_default);
+  const [phoneNumber2, setPhoneNumber2] = useState(primary_default);
+  const [email1, setEmail1] = useState(primary_default);
+  const [email2, setEmail2] = useState(primary_default);
+  const [address1, setAddress1] = useState(primary_default);
+  const [address2, setAddress2] = useState(primary_default);
+  const [dateOfAdmission, setDateOfAdmission] = useState(primary_default);
+  const [firm, setFirm] = useState(primary_default);
+  const [fax, setFax] = useState(primary_default);
+  const [license, setLicense] = useState(primary_default);
+  const [status, setStatus] = useState(primary_default);
 
   function next() {
     if (file === undefined) {
@@ -75,8 +81,32 @@ export default function DatabaseAddition({ jurisdiction_list }) {
     let _bar_number = barNumber.value;
     let _first_name = firstName.value;
     let _last_name = lastName.value;
-    let _phone_number = phoneNumber.value;
-    let _email = email.value;
+    let _full_name = fullName.value;
+    let _phone_number1 = phoneNumber1.value;
+    let _phone_number2 = phoneNumber2.value;
+    let _email1 = email1.value;
+    let _email2 = email2.value;
+    let _address1 = address1.value;
+    let _address2 = address2.value;
+    let _firm = firm.value;
+    let _fax = fax.value;
+    let _status = status.value;
+
+    console.log([
+      _bar_number,
+      _first_name,
+      _last_name,
+      _full_name,
+      _phone_number1,
+      _phone_number2,
+      _email1,
+      _email2,
+      _address1,
+      _address2,
+      _firm,
+      _fax,
+      _status,
+    ]);
 
     let valid = true;
 
@@ -92,11 +122,43 @@ export default function DatabaseAddition({ jurisdiction_list }) {
       valid = false;
     }
 
-    if (_phone_number === -2) {
+    if (_full_name === -2) {
       valid = false;
     }
 
-    if (_email === -2) {
+    if (_phone_number1 === -2) {
+      valid = false;
+    }
+
+    if (_phone_number2 === -2) {
+      valid = false;
+    }
+
+    if (_email1 === -2) {
+      valid = false;
+    }
+
+    if (_email2 === -2) {
+      valid = false;
+    }
+
+    if (_address1 === -2) {
+      valid = false;
+    }
+
+    if (_address2 === -2) {
+      valid = false;
+    }
+
+    if (_firm === -2) {
+      valid = false;
+    }
+
+    if (_fax === -2) {
+      valid = false;
+    }
+
+    if (_status === -2) {
       valid = false;
     }
 
@@ -129,41 +191,39 @@ export default function DatabaseAddition({ jurisdiction_list }) {
           {tableData !== undefined ? (
             <Table data={tableData} />
           ) : (
-            <div>BADTABLEDATA</div>
+            <div>BAD TABLE DATA</div>
           )}
-          <PrimaryFieldInputRow
-            fieldName={"Bar Number"}
-            fieldId={1}
-            column={barNumber}
-            setColumn={setBarNumber}
-            lastColumn={lastColumn}
-          />
-          <PrimaryFieldInputRow
-            fieldName={"First Name"}
-            fieldId={2}
-            column={firstName}
-            setColumn={setFirstName}
-            lastColumn={lastColumn}
-          />
-          <PrimaryFieldInputRow
-            fieldName={"Last Name"}
-            fieldId={3}
-            column={lastName}
-            setColumn={setLastName}
-            lastColumn={lastColumn}
-          />
-          <PrimaryFieldInputRow
-            fieldName={"Phone Number"}
-            fieldId={4}
-            column={phoneNumber}
-            setColumn={setPhoneNumber}
-            lastColumn={lastColumn}
-          />
-          <PrimaryFieldInputRow
-            fieldName={"Email"}
-            fieldId={5}
-            column={email}
-            setColumn={setEmail}
+          <PrimaryFieldRenderer
+            barNumber={barNumber}
+            setBarNumber={setBarNumber}
+            firstName={firstName}
+            setFirstName={setFirstName}
+            lastName={lastName}
+            setLastName={setLastName}
+            fullName={fullName}
+            setFullName={setFullName}
+            phoneNumber1={phoneNumber1}
+            setPhoneNumber1={setPhoneNumber1}
+            phoneNumber2={phoneNumber2}
+            setPhoneNumber2={setPhoneNumber2}
+            email1={email1}
+            setEmail1={setEmail1}
+            email2={email2}
+            setEmail2={setEmail2}
+            address1={address1}
+            setAddress1={setAddress1}
+            address2={address2}
+            setAddress2={setAddress2}
+            dateOfAdmission={dateOfAdmission}
+            setDateOfAdmission={setDateOfAdmission}
+            firm={firm}
+            setFirm={setFirm}
+            fax={fax}
+            setFax={setFax}
+            license={license}
+            setLicense={setLicense}
+            status={status}
+            setStatus={setStatus}
             lastColumn={lastColumn}
           />
           <div className="button" onClick={submit}>

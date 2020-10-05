@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import FileInputRow from "./FileInputRow";
-import DateInputRow from "./DateInputRow";
 import JurisdictionInputRow from "./JurisdictionInputRow";
-import PrimaryFieldInputRow from "./PrimaryFieldInputRow";
 import TimeframeInput from "./TimeframeInput";
 
 export default function DatabaseQuery({ jurisdiction_list }) {
-
   const [file, setFile] = useState();
   const [jurisdiction, setJurisdiction] = useState(jurisdiction_list[0]);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+
+  function search() {
+    console.table([file, jurisdiction, startDate, endDate]);
+  }
 
   return (
     <div className="flex-center">
@@ -22,9 +23,16 @@ export default function DatabaseQuery({ jurisdiction_list }) {
         setJurisdiction={setJurisdiction}
         jurisdiction_list={jurisdiction_list}
       />
-      <TimeframeInput startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate} />
+      <TimeframeInput
+        startDate={startDate}
+        endDate={endDate}
+        setStartDate={setStartDate}
+        setEndDate={setEndDate}
+      />
       <div className="button">
-          <div className="button-link">Search</div>
+        <div className="button-link" onClick={search}>
+          Search
+        </div>
       </div>
     </div>
   );
