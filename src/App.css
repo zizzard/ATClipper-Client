@@ -93,3 +93,9 @@ h2 {
 .infoIcon {
   width: 30%;
 }
+.table-preview {
+  border: 1px black solid;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 5px;
+}

@@ -4,6 +4,10 @@ import DateInputRow from "./DateInputRow";
 import JurisdictionInputRow from "./JurisdictionInputRow";
 import PrimaryFieldInputRow from "./PrimaryFieldInputRow";
 
+import Table from "./Table";
+
+import XLSX from "xlsx";
+
 export default function DatabaseAddition({ jurisdiction_list }) {
   const [jurisdiction, setJurisdiction] = useState(jurisdiction_list[0]);
   const [file, setFile] = useState();
@@ -11,32 +15,95 @@ export default function DatabaseAddition({ jurisdiction_list }) {
 
   const [lastColumn, setLastColumn] = useState(0);
 
-  const [barNumber, setBarNumber] = useState("Column 0");
-  const [firstName, setFirstName] = useState("Column 0");
-  const [lastName, setLastName] = useState("Column 0");
-  const [phoneNumber, setPhoneNumber] = useState("Column 0");
-  const [email, setEmail] = useState("Column 0");
+  let primary_default = { value: -2, label: "Select..." };
+  const [barNumber, setBarNumber] = useState(primary_default);
+  const [firstName, setFirstName] = useState(primary_default);
+  const [lastName, setLastName] = useState(primary_default);
+  const [phoneNumber, setPhoneNumber] = useState(primary_default);
+  const [email, setEmail] = useState(primary_default);
+
+  const [tableData, setTableData] = useState();
 
   const [validInput, setValidInput] = useState(false);
 
   function next() {
-    console.log(jurisdiction);
-    console.log(file);
-    console.log(date);
-
     if (file === undefined) {
       console.log("Missing file");
       return;
     }
 
-    //TODO: Parse file here
-    setLastColumn(20);
+    parseFile(file).then((result) => {
+      console.log(result);
+      setLastColumn(result[0].length);
+      setTableData(result);
+      setValidInput(true);
+    });
+  }
 
-    setValidInput(true);
+  function parseFile(file) {
+    return new Promise(function (resolve, reject) {
+      let name_arr = file.name.split(".");
+      let file_type = name_arr[name_arr.length - 1];
+      if (file_type === "xlsx" || file_type === "xls" || file_type === "csv") {
+        reader(file).then((result) => {
+          resolve(result);
+        });
+      } else {
+        reject("bad_file_type");
+      }
+    });
+  }
+
+  function reader(file) {
+    return new Promise(function (resolve, reject) {
+      const reader = new FileReader();
+      const rABS = !!reader.readAsBinaryString;
+      if (rABS) reader.readAsBinaryString(file);
+      else reader.readAsArrayBuffer(file);
+
+      reader.onload = ({ target: { result } }) => {
+        const wb = XLSX.read(result, { type: rABS ? "binary" : "array" });
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        const data = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
+        resolve(data);
+      };
+    });
   }
 
   function submit() {
-    console.table([barNumber, firstName, lastName, phoneNumber, email]);
+    let _bar_number = barNumber.value;
+    let _first_name = firstName.value;
+    let _last_name = lastName.value;
+    let _phone_number = phoneNumber.value;
+    let _email = email.value;
+
+    let valid = true;
+
+    if (_bar_number === -2) {
+      valid = false;
+    }
+
+    if (_first_name === -2) {
+      valid = false;
+    }
+
+    if (_last_name === -2) {
+      valid = false;
+    }
+
+    if (_phone_number === -2) {
+      valid = false;
+    }
+
+    if (_email === -2) {
+      valid = false;
+    }
+
+    if (!valid) {
+      console.log("Missing primary field mapping");
+      return;
+    }
   }
 
   return (
@@ -59,6 +126,11 @@ export default function DatabaseAddition({ jurisdiction_list }) {
       ) : (
         <div>
           <hr className="small-hr" />
+          {tableData !== undefined ? (
+            <Table data={tableData} />
+          ) : (
+            <div>BADTABLEDATA</div>
+          )}
           <PrimaryFieldInputRow
             fieldName={"Bar Number"}
             fieldId={1}
