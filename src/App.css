@@ -73,3 +73,23 @@ h2 {
   justify-content: space-between;
   padding-bottom: 15px;
 }
+
+.flex-row-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  width: 55%;
+}
+
+.flex-row-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  width: 10%;
+}
+
+.infoIcon {
+  width: 30%;
+}
