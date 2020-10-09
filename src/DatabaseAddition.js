@@ -11,6 +11,7 @@ export default function DatabaseAddition({ jurisdiction_list }) {
   const [jurisdiction, setJurisdiction] = useState(jurisdiction_list[0]);
   const [file, setFile] = useState();
   const [date, setDate] = useState(new Date());
+
   const [lastColumn, setLastColumn] = useState(0);
   const [tableData, setTableData] = useState();
   const [validInput, setValidInput] = useState(false);
@@ -88,25 +89,11 @@ export default function DatabaseAddition({ jurisdiction_list }) {
     let _email2 = email2.value;
     let _address1 = address1.value;
     let _address2 = address2.value;
+    let _date_of_admission = dateOfAdmission.value;
     let _firm = firm.value;
     let _fax = fax.value;
+    let _license = license.value;
     let _status = status.value;
-
-    console.log([
-      _bar_number,
-      _first_name,
-      _last_name,
-      _full_name,
-      _phone_number1,
-      _phone_number2,
-      _email1,
-      _email2,
-      _address1,
-      _address2,
-      _firm,
-      _fax,
-      _status,
-    ]);
 
     let valid = true;
 
@@ -150,11 +137,19 @@ export default function DatabaseAddition({ jurisdiction_list }) {
       valid = false;
     }
 
+    if (_date_of_admission === -2) {
+      valid = false;
+    }
+
     if (_firm === -2) {
       valid = false;
     }
 
     if (_fax === -2) {
+      valid = false;
+    }
+
+    if (_license === -2) {
       valid = false;
     }
 
@@ -166,6 +161,43 @@ export default function DatabaseAddition({ jurisdiction_list }) {
       console.log("Missing primary field mapping");
       return;
     }
+
+    let mapping = {
+      barNum: _bar_number,
+      firstName: _first_name,
+      lastName: _last_name,
+      fullName: _full_name,
+      phone1: _phone_number1,
+      phone2: _phone_number2,
+      email1: _email1,
+      email2: _email2,
+      address1: _address1,
+      address2: _address2,
+      dateOfAdmission: _date_of_admission,
+      firm: _firm,
+      fax: _fax,
+      license: _license,
+      status: _status,
+    };
+
+    let obj = {
+      data: file,
+      jurisdiction: jurisdiction,
+      reportDate: date.toJSON().slice(0, 10),
+      mapping: mapping,
+    };
+
+    fetch("http://localhost:5000/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(obj),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
   }
 
   return (

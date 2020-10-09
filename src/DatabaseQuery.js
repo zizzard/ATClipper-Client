@@ -10,7 +10,26 @@ export default function DatabaseQuery({ jurisdiction_list }) {
   const [endDate, setEndDate] = useState(new Date());
 
   function search() {
-    console.table([file, jurisdiction, startDate, endDate]);
+    //console.table([file, jurisdiction, startDate, endDate]);
+
+    let obj = {
+      data: file,
+      jurisdiction: jurisdiction,
+      startDate: startDate.toJSON().slice(0, 10),
+      endDate: endDate.toJSON().slice(0, 10),
+    };
+
+    fetch("http://localhost:5000/query", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(obj),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
   }
 
   return (
