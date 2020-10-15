@@ -6,10 +6,10 @@ Download and install nodejs/npm from the following source [nodejs.org](https://n
 Navigate inside the project folder (i.e. `cd ATClipper-Client`)
 
 ## Install React Packages
-Run the following command inside a terminal: `npm install`
+Run the following command inside a terminal: `npm install`.
 
 ## Start the React Front-End
-Run the following command inside a terminal: `npm start`
+Run the following command inside a terminal: `npm start`.
 The React Front-End can now be found at [http://localhost:3000](http://localhost:3000)
 
 ## Learn More About React
