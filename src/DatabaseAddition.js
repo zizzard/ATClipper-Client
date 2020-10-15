@@ -16,7 +16,7 @@ export default function DatabaseAddition({ jurisdiction_list }) {
   const [tableData, setTableData] = useState();
   const [validInput, setValidInput] = useState(false);
 
-  let primary_default = { value: -2, label: "Select..." };
+  let primary_default = { value: 2, label: "Select..." };
   const [barNumber, setBarNumber] = useState(primary_default);
   const [firstName, setFirstName] = useState(primary_default);
   const [lastName, setLastName] = useState(primary_default);
@@ -180,19 +180,16 @@ export default function DatabaseAddition({ jurisdiction_list }) {
       status: _status,
     };
 
-    let obj = {
-      data: file,
-      jurisdiction: jurisdiction,
-      reportDate: date.toJSON().slice(0, 10),
-      mapping: mapping,
-    };
+    let formData = new FormData();
+    formData.append("data", file);
+    formData.append("fileName", file.name);
+    formData.append("jurisdiction", jurisdiction);
+    formData.append("reportDate", date.toJSON().slice(0, 10));
+    formData.append("mapping", JSON.stringify(mapping));
 
     fetch("http://localhost:5000/add", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(obj),
+      body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
