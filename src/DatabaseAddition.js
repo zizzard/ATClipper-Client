@@ -69,7 +69,10 @@ export default function DatabaseAddition({ jurisdiction_list }) {
       else reader.readAsArrayBuffer(file);
 
       reader.onload = ({ target: { result } }) => {
-        const wb = XLSX.read(result, { type: rABS ? "binary" : "array" });
+        const wb = XLSX.read(result, {
+          type: rABS ? "binary" : "array",
+          sheetRows: 4,
+        });
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         const data = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
@@ -180,19 +183,16 @@ export default function DatabaseAddition({ jurisdiction_list }) {
       status: _status,
     };
 
-    let obj = {
-      data: file,
-      jurisdiction: jurisdiction,
-      reportDate: date.toJSON().slice(0, 10),
-      mapping: mapping,
-    };
+    let formData = new FormData();
+    formData.append("data", file);
+    formData.append("fileName", file.name);
+    formData.append("jurisdiction", jurisdiction);
+    formData.append("reportDate", date.toJSON().slice(0, 10));
+    formData.append("mapping", JSON.stringify(mapping));
 
     fetch("http://localhost:5000/add", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(obj),
+      body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
