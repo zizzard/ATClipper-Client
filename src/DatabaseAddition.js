@@ -202,7 +202,7 @@ export default function DatabaseAddition({ jurisdiction_list }) {
 
   function mapColumnToValue(obj) {
     let rv = [];
-    obj.map((o) => {
+    obj.forEach((o) => {
       rv.push(o.value);
     });
     return rv;
