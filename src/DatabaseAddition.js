@@ -16,7 +16,7 @@ export default function DatabaseAddition({ jurisdiction_list }) {
   const [tableData, setTableData] = useState();
   const [validInput, setValidInput] = useState(false);
 
-  let primary_default = { value: -2, label: "Select..." };
+  let primary_default = [{ value: -2, label: "Select..." }];
   const [barNumber, setBarNumber] = useState(primary_default);
   const [firstName, setFirstName] = useState(primary_default);
   const [lastName, setLastName] = useState(primary_default);
