@@ -11,15 +11,6 @@ export default function PrimaryFieldInputRow({
   setColumn,
   options,
 }) {
-
-  function addColumnNumber(selectedList, selectedItem) {
-    console.log(selectedList, selectedItem);
-  }
-
-  function removeColumnNumber(selectedList, removedItem) {
-    console.log(selectedList, removedItem);
-  }
-
   return (
     <div className="flex-row">
       <label className="form-label" htmlFor={fieldId}>
@@ -33,11 +24,11 @@ export default function PrimaryFieldInputRow({
       /> */}
       <Multiselect
         options={options}
-        // onChange={(event) => setColumn(event)}
-        onSelect={addColumnNumber}
-        onRemove={removeColumnNumber}
+        onSelect={(list, item) => setColumn(list)}
+        onRemove={(list, item) => setColumn(list)}
         value={column.label}
         id={fieldId}
+        displayValue="label"
       />
     </div>
   );
